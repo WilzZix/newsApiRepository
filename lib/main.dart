@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:infinite_scroll/pages/detail_page.dart';
-import 'package:infinite_scroll/pages/home_page.dart';
+import 'package:infinite_scroll/presentation/pages/detail_page.dart';
+import 'package:infinite_scroll/presentation/pages/home_page/home_page.dart';
 
 void main() {
   runApp(MyApp());
