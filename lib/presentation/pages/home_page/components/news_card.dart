@@ -1,16 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:infinite_scroll/application/bloc/news_bloc.dart';
+import 'package:infinite_scroll/infrastructure/dto/models/news_model.dart';
+
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class NewsCard extends StatelessWidget {
   const NewsCard({
     Key? key,
+    required this.data,
   }) : super(key: key);
+  final News data;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        context.go('/detail');
+        context.go('/detail', extra: data);
       },
       child: Container(
         height: 100,
@@ -26,8 +32,7 @@ class NewsCard extends StatelessWidget {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Image.network(
-                  'https://www.gravatar.com/avatar/2c7d99fe281ecd3bcd65ab915bac6dd5?s=250'),
+              Image.network(data.urlToImage.toString()),
               Padding(
                 padding: const EdgeInsets.only(left: 8.0),
                 child: Column(
@@ -35,36 +40,39 @@ class NewsCard extends StatelessWidget {
                   mainAxisSize: MainAxisSize.max,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text(
-                      'Description some text \nSome Text & Show',
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold, color: Colors.white),
+                    Text(
+                      data.description.toString(),
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
+                      textAlign: TextAlign.start,
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const Text(
-                          'Movies',
-                          style: TextStyle(
+                        Text(
+                          data.author.toString(),
+                          style: const TextStyle(
                             fontSize: 12,
                             color: Colors.white,
                           ),
                         ),
-                        Row(
-                          children: const [
-                            Icon(
-                              Icons.star,
-                              color: Colors.amber,
-                            ),
-                            Text(
-                              '6.6',
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 12,
-                                  color: Colors.white),
-                            )
-                          ],
-                        )
+                        // Row(
+                        //   children: const [
+                        //     Icon(
+                        //       Icons.star,
+                        //       color: Colors.amber,
+                        //     ),
+                        //     // Text(
+                        //     //   '6.6',
+                        //     //   style: TextStyle(
+                        //     //       fontWeight: FontWeight.bold,
+                        //     //       fontSize: 12,
+                        //     //       color: Colors.white),
+                        //     // )
+                        //   ],
+                        // )
                       ],
                     )
                   ],

@@ -1,4 +1,3 @@
-
 import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
@@ -18,8 +17,9 @@ class NewsBloc extends Bloc<NewsEvent, NewsState> {
     on<GetNewsEvent>((event, emit) async {
       emit(NewsLoadingState());
       try {
+        log('News started');
         _page = 1;
-        final List<News> news = await repository.getNews(page: _page);
+        List<News> news = await repository.getNews(page: _page);
         log('News $news');
         emit(NewsLoadedState(news));
       } catch (e) {

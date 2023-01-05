@@ -14,3 +14,9 @@ class NewsLoadedState extends NewsState {
 }
 
 class NewsLoadingErrorState extends NewsState {}
+
+class DetailNewsInfo extends NewsState {
+  final News data;
+
+  DetailNewsInfo(this.data);
+}
