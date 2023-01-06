@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:infinite_scroll/application/bloc/news_bloc.dart';
 import 'package:infinite_scroll/infrastructure/dto/models/news_model.dart';
 
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class NewsCard extends StatelessWidget {
   const NewsCard({
@@ -40,13 +38,15 @@ class NewsCard extends StatelessWidget {
                   mainAxisSize: MainAxisSize.max,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                      data.description.toString(),
-                      style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
+                    Expanded(
+                      child: Text(
+                        data.author.toString(),
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                        softWrap: true,
                       ),
-                      textAlign: TextAlign.start,
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,

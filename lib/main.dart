@@ -4,8 +4,25 @@ import 'package:infinite_scroll/infrastructure/dto/models/news_model.dart';
 import 'package:infinite_scroll/presentation/pages/detail_page.dart';
 import 'package:infinite_scroll/presentation/pages/home_page/home_page.dart';
 
+import 'package:flutter_bloc/flutter_bloc.dart';
+
 void main() {
+  Bloc.observer = AppBlocObserver();
   runApp(MyApp());
+}
+
+class AppBlocObserver extends BlocObserver {
+  @override
+  void onChange(BlocBase bloc, Change change) {
+    super.onChange(bloc, change);
+    if (bloc is Cubit) print(change);
+  }
+
+  @override
+  void onTransition(Bloc bloc, Transition transition) {
+    super.onTransition(bloc, transition);
+    print(transition);
+  }
 }
 
 class MyApp extends StatelessWidget {

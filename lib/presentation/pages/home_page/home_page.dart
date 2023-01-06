@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:infinite_scroll/application/bloc/news_bloc.dart';
 
@@ -15,6 +17,26 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   NewsBloc bloc = NewsBloc();
+  ScrollController scrollController = ScrollController();
+
+
+  @override
+  void initState() {
+    scrollController.addListener(scrollListener);
+    super.initState();
+  }
+
+  scrollListener() {
+    if (scrollController.offset >= scrollController.position.maxScrollExtent &&
+        !scrollController.position.outOfRange) {
+      bloc.add(GetNewsEvent());
+      log('REACH THE BOTTOM');
+    }
+    if (scrollController.offset <= scrollController.position.minScrollExtent &&
+        !scrollController.position.outOfRange) {
+      log('REACH THE TOP');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,6 +45,7 @@ class _MyHomePageState extends State<MyHomePage> {
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: CustomScrollView(
+            controller: scrollController,
             slivers: [
               SliverToBoxAdapter(
                 child: Row(
@@ -51,29 +74,51 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               BlocProvider(
                 create: (context) => NewsBloc(),
-                child: BlocBuilder(
-                  bloc: bloc..add(GetNewsEvent()),
-                  builder: (BuildContext context, state) {
-                    if (state is NewsLoadedState) {
-                      List<News> data = state.data;
-                      return SliverList(
-                        delegate: SliverChildBuilderDelegate(
-                          (context, index) {
-                            return Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: NewsCard(
-                                data: data[index],
-                              ),
-                            );
-                          },
-                          childCount: data.length,
-                        ),
-                      );
-                    }
-                    return const SliverToBoxAdapter(
-                      child: Center(
-                        child: CircularProgressIndicator(),
-                      ),
+                child: BlocConsumer<NewsBloc, NewsState>(
+                  listener: (context, state) {
+                    // if (state is NewsLoadedState) {
+                    //   setState(() {
+                    //   });
+                    // }
+                  },
+                  builder: (context, state) {
+                    return BlocBuilder(
+                      buildWhen: (context, state) =>
+                          state != NewsLoadedState,
+                      bloc: bloc..add(GetNewsEvent()),
+                      builder: (BuildContext context, state) {
+                        if (state is NewsLoadedState) {
+                        List<News>  data = state.data;
+                          log('${data.length}');
+                          return SliverList(
+                            delegate: SliverChildBuilderDelegate(
+                              (context, index) {
+                                if (index < data.length) {
+                                  return Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: NewsCard(
+                                      data: data[index],
+                                    ),
+                                  );
+                                } else {
+                                  return const Padding(
+                                    padding: EdgeInsets.symmetric(vertical: 32),
+                                    child: Center(
+                                      child: CircularProgressIndicator(),
+                                    ),
+                                  );
+                                }
+                              },
+                              childCount: data.length + 1,
+                            ),
+                          );
+                        }
+                        return const SliverToBoxAdapter(
+                          child: Center(
+                            child: CircularProgressIndicator(),
+                          ),
+                        );
+                      },
                     );
                   },
                 ),

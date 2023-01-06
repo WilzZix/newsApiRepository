@@ -13,11 +13,7 @@ class NewsRepository implements INews {
     var dio = Dio();
     final Response response =
         await dio.get(
-      'https://newsapi.org/v2/top-headlines?country=us&apiKey=2a389994e9314644b675d0567ed43de4&pageSize=10&page=2',
-      // queryParameters: {
-      //   'page': page,
-      //   'pageSize': 5,
-      // },
+      'https://newsapi.org/v2/top-headlines?country=us&apiKey=2a389994e9314644b675d0567ed43de4&pageSize=10&page=$page',
     );
     log('NEWWWSSS ${response.data}');
     return News.fetchData(response.data ?? {});
