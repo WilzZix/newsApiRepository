@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:infinite_scroll/infrastructure/dto/models/news_model.dart';
 
-
 class NewsCard extends StatelessWidget {
   const NewsCard({
     Key? key,
@@ -13,9 +12,7 @@ class NewsCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        context.go('/detail', extra: data);
-      },
+      onTap: () {},
       child: Container(
         height: 100,
         decoration: BoxDecoration(
@@ -30,7 +27,9 @@ class NewsCard extends StatelessWidget {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Image.network(data.urlToImage.toString()),
+              data.urlToImage == null
+                  ? Icon(Icons.image)
+                  : Image.network(data.urlToImage.toString()),
               Padding(
                 padding: const EdgeInsets.only(left: 8.0),
                 child: Column(
@@ -38,15 +37,13 @@ class NewsCard extends StatelessWidget {
                   mainAxisSize: MainAxisSize.max,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Expanded(
-                      child: Text(
-                        data.author.toString(),
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                        ),
-                        softWrap: true,
+                    Text(
+                      data.author.toString(),
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
                       ),
+                      softWrap: true,
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,

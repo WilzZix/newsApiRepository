@@ -8,9 +8,13 @@ class GetNewsEvent extends NewsEvent {
   List<Object?> get props => [];
 }
 
+class GetNextPageEvent extends NewsEvent {
+  @override
+  // TODO: implement props
+  List<Object?> get props => [];
+}
+
 class GetDetailInfoEvent extends NewsEvent {
-
-
   GetDetailInfoEvent();
 
   @override
