@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:infinite_scroll/application/bloc/news_bloc.dart';
 import 'package:infinite_scroll/infrastructure/dto/models/news_model.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:infinite_scroll/presentation/pages/detail_page.dart';
 import 'package:intl/intl.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -18,9 +19,9 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        endDrawer: Drawer(
+    return Scaffold(
+      endDrawer: SafeArea(
+        child: Drawer(
           backgroundColor: Colors.black87,
           child: Padding(
             padding: const EdgeInsets.all(8.0),
@@ -32,7 +33,9 @@ class _MyHomePageState extends State<MyHomePage> {
                   child: Row(
                     children: [
                       GestureDetector(
-                        onTap: () {Navigator.of(context).pop();},
+                        onTap: () {
+                          Navigator.of(context).pop();
+                        },
                         child: Icon(
                           Icons.close,
                           color: Colors.white,
@@ -146,104 +149,94 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
           ),
         ),
-        appBar: AppBar(
-          backgroundColor: Colors.black54,
-          title: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Text(
-                  'Global news',
-                  style: TextStyle(fontSize: 32),
-                ),
-                const SizedBox(
-                  height: 8,
-                ),
-                Text(
-                  DateFormat.yMMMd()
-                      .format(DateTime.parse(DateTime.now().toString())),
-                  style: const TextStyle(fontSize: 14),
-                ),
-                const SizedBox(
-                  height: 8,
-                ),
-              ],
-            ),
+      ),
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        title: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text(
+                'Global news',
+                style: TextStyle(fontSize: 32),
+              ),
+              const SizedBox(
+                height: 8,
+              ),
+              Text(
+                DateFormat.yMMMd()
+                    .format(DateTime.parse(DateTime.now().toString())),
+                style: const TextStyle(fontSize: 14),
+              ),
+              const SizedBox(
+                height: 8,
+              ),
+            ],
           ),
-          // actions: [
-          //   const Icon(
-          //     Icons.search,
-          //     size: 32,
-          //   ),
-          //   const SizedBox(
-          //     width: 16,
-          //   ),
-          //   // GestureDetector(
-          //   //   onTap: () {
-          //   //
-          //   //   },
-          //   //   child: const Icon(
-          //   //     Icons.menu,
-          //   //     size: 32,
-          //   //   ),
-          //   // ),
-          //   const SizedBox(
-          //     width: 8,
-          //   ),
-          // ],
         ),
-        body: BlocProvider(
-          create: (context) => NewsBloc(),
-          child: BlocBuilder<NewsBloc, NewsState>(
-            bloc: bloc..add(GetNewsEvent()),
-            builder: (context, state) {
-              if (state is NewsLoadedState) {
-                return Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-                  child: SingleChildScrollView(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        HeaderWidget(
-                          data: state
-                              .data[Random().nextInt(state.data.length - 1)],
-                        ),
-                        const SizedBox(
-                          height: 16,
-                        ),
-                        ListView.builder(
-                          shrinkWrap: true,
-                          physics: const NeverScrollableScrollPhysics(),
-                          itemCount: state.data.length,
-                          itemBuilder: (context, index) {
-                            return LIstVIewItem(
+      ),
+      body: BlocProvider(
+        create: (context) => NewsBloc(),
+        child: BlocBuilder<NewsBloc, NewsState>(
+          bloc: bloc..add(GetNewsEvent()),
+          builder: (context, state) {
+            if (state is NewsLoadedState) {
+              return Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      HeaderWidget(
+                        data:
+                            state.data[Random().nextInt(state.data.length - 1)],
+                      ),
+                      const SizedBox(
+                        height: 16,
+                      ),
+                      ListView.builder(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: state.data.length,
+                        itemBuilder: (context, index) {
+                          return GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (_) => DetailPage(
+                                    data: state.data[index],
+                                  ),
+                                ),
+                              );
+                            },
+                            child: ListViewItem(
                               data: state.data[index],
-                            );
-                          },
-                        ),
-                      ],
-                    ),
+                            ),
+                          );
+                        },
+                      ),
+                    ],
                   ),
-                );
-              }
-              if (state is NewsLoadingState) {
-                return const Center(
-                  child: CircularProgressIndicator(
-                    color: Colors.green,
-                  ),
-                );
-              } else {
-                return const Center(
-                  child: CircularProgressIndicator(
-                    color: Colors.red,
-                  ),
-                );
-              }
-            },
-          ),
+                ),
+              );
+            }
+            if (state is NewsLoadingState) {
+              return const Center(
+                child: CircularProgressIndicator(
+                  color: Colors.green,
+                ),
+              );
+            } else {
+              return const Center(
+                child: CircularProgressIndicator(
+                  color: Colors.red,
+                ),
+              );
+            }
+          },
         ),
       ),
     );
@@ -304,8 +297,8 @@ class HeaderWidget extends StatelessWidget {
   }
 }
 
-class LIstVIewItem extends StatelessWidget {
-  const LIstVIewItem({
+class ListViewItem extends StatelessWidget {
+  const ListViewItem({
     Key? key,
     required this.data,
   }) : super(key: key);
@@ -343,9 +336,6 @@ class LIstVIewItem extends StatelessWidget {
                   ),
                 ),
               ],
-            ),
-            const SizedBox(
-              width: 16,
             ),
             Container(
               width: 120,
