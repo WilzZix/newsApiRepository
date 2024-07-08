@@ -26,137 +26,14 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        endDrawer: Drawer(
-          backgroundColor: Colors.black87,
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                    children: [
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.of(context).pop();
-                        },
-                        child: Icon(
-                          Icons.close,
-                          color: Colors.white,
-                        ),
-                      ),
-                      SizedBox(
-                        width: 16,
-                      ),
-                      Text(
-                        'Выберите страну',
-                        style: TextStyle(fontSize: 24, color: Colors.white),
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(
-                  width: 8,
-                ),
-                GestureDetector(
-                  onTap: () {
-                    BlocProvider.of<NewsBloc>(context)
-                        .add(GetCountryNewsEvent('en'));
-                    Navigator.pop(context);
-                  },
-                  child: const Padding(
-                    padding: EdgeInsets.all(16),
-                    child: Text(
-                      'United States',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 28,
-                          fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                ),
-                const SizedBox(
-                  width: 16,
-                ),
-                const Padding(
-                  padding: EdgeInsets.all(16),
-                  child: Text(
-                    'Australia',
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 28,
-                        fontWeight: FontWeight.bold),
-                  ),
-                ),
-                const SizedBox(
-                  width: 16,
-                ),
-                const Padding(
-                  padding: EdgeInsets.all(16),
-                  child: Text(
-                    'India',
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 28,
-                        fontWeight: FontWeight.bold),
-                  ),
-                ),
-                const SizedBox(
-                  width: 16,
-                ),
-                const Padding(
-                  padding: EdgeInsets.all(16),
-                  child: Text(
-                    'Southern Africa',
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 28,
-                        fontWeight: FontWeight.bold),
-                  ),
-                ),
-                const SizedBox(
-                  width: 16,
-                ),
-                const Padding(
-                  padding: EdgeInsets.all(16),
-                  child: Text(
-                    'Turkish',
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 28,
-                        fontWeight: FontWeight.bold),
-                  ),
-                ),
-                const SizedBox(
-                  width: 16,
-                ),
-                GestureDetector(
-                  onTap: () {
-                    BlocProvider.of<NewsBloc>(context)
-                        .add(GetCountryNewsEvent('ru'));
-                    BlocProvider.of<NewsBloc>(context).add((GetNewsEvent()));
-                    Navigator.pop(context);
-                  },
-                  child: const Padding(
-                    padding: EdgeInsets.all(16),
-                    child: Text(
-                      'Россия',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 28,
-                          fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                ),
-                const SizedBox(
-                  width: 16,
-                ),
-              ],
-            ),
-          ),
-        ),
         appBar: AppBar(
+          centerTitle: false,
+          actions: const [
+            Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Icon(Icons.done_all_rounded),
+            )
+          ],
           backgroundColor: Colors.white,
           title: const Padding(
             padding: EdgeInsets.all(8.0),
@@ -174,27 +51,6 @@ class _MyHomePageState extends State<MyHomePage> {
               ],
             ),
           ),
-          // actions: [
-          //   const Icon(
-          //     Icons.search,
-          //     size: 32,
-          //   ),
-          //   const SizedBox(
-          //     width: 16,
-          //   ),
-          //   // GestureDetector(
-          //   //   onTap: () {
-          //   //
-          //   //   },
-          //   //   child: const Icon(
-          //   //     Icons.menu,
-          //   //     size: 32,
-          //   //   ),
-          //   // ),
-          //   const SizedBox(
-          //     width: 8,
-          //   ),
-          // ],
         ),
         body: BlocBuilder<NewsBloc, NewsState>(
           buildWhen: (context, state) {
@@ -202,7 +58,6 @@ class _MyHomePageState extends State<MyHomePage> {
           },
           builder: (context, state) {
             if (state is CountryNewsLoadedState) {
-              print('line 202');
               return Padding(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
