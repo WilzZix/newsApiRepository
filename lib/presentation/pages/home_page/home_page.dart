@@ -77,7 +77,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         physics: const NeverScrollableScrollPhysics(),
                         itemCount: state.data.length,
                         itemBuilder: (context, index) {
-                          return LIstVIewItem(
+                          return ListViewItem(
                             data: state.data[index],
                           );
                         },
@@ -88,7 +88,6 @@ class _MyHomePageState extends State<MyHomePage> {
               );
             }
             if (state is NewsLoadedState) {
-              print('line 233');
               return Padding(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
@@ -108,7 +107,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         physics: const NeverScrollableScrollPhysics(),
                         itemCount: state.data.length,
                         itemBuilder: (context, index) {
-                          return LIstVIewItem(
+                          return ListViewItem(
                             data: state.data[index],
                           );
                         },
