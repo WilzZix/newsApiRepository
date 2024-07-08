@@ -192,8 +192,8 @@ class HeaderWidget extends StatelessWidget {
   }
 }
 
-class LIstVIewItem extends StatelessWidget {
-  const LIstVIewItem({
+class ListViewItem extends StatelessWidget {
+  const ListViewItem({
     Key? key,
     required this.data,
   }) : super(key: key);

@@ -13,7 +13,6 @@ class NewsRepository implements INews {
 
   @override
   Future<List<News>> getNews({required int page}) async {
-    log('repository');
     var dio = Dio();
     final Response response = await dio.get(
       'https://newsapi.org/v2/top-headlines?language=${country.isNotEmpty ? country : 'en'}&apiKey=dc6ae0adf55e413caa332f123ad34374&pageSize=10&page=$page',
@@ -30,7 +29,6 @@ class NewsRepository implements INews {
     final Response response = await dio.get(
       'https://newsapi.org/v2/top-headlines?language=$country&apiKey=dc6ae0adf55e413caa332f123ad34374&pageSize=10',
     );
-    log('NEWWWSSS ${response.data}');
     return News.fetchData(response.data ?? {});
   }
 }

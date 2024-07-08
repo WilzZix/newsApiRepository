@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:infinite_scroll/infrastructure/dto/models/news_model.dart';
+import 'package:intl/intl.dart';
 
 class DetailPage extends StatefulWidget {
   const DetailPage({
