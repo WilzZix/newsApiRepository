@@ -20,3 +20,13 @@ class GetDetailInfoEvent extends NewsEvent {
   @override
   List<Object?> get props => [];
 }
+
+class GetCountryNewsEvent extends NewsEvent {
+  final String country;
+
+  GetCountryNewsEvent(this.country);
+
+  @override
+  // TODO: implement props
+  List<Object?> get props => [];
+}
