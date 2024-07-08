@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:infinite_scroll/application/bloc/news_bloc.dart';
@@ -18,169 +17,76 @@ class _MyHomePageState extends State<MyHomePage> {
   NewsBloc bloc = NewsBloc();
 
   @override
+  void initState() {
+    BlocProvider.of<NewsBloc>(context).add(GetNewsEvent());
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      endDrawer: SafeArea(
-        child: Drawer(
-          backgroundColor: Colors.black87,
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(
+          centerTitle: false,
+          actions: const [
+            Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Icon(Icons.done_all_rounded),
+            )
+          ],
+          backgroundColor: Colors.white,
+          title: const Padding(
+            padding: EdgeInsets.all(8.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                    children: [
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.of(context).pop();
-                        },
-                        child: Icon(
-                          Icons.close,
-                          color: Colors.white,
-                        ),
-                      ),
-                      SizedBox(
-                        width: 16,
-                      ),
-                      Text(
-                        'Выберите страну',
-                        style: TextStyle(fontSize: 24, color: Colors.white),
-                      ),
-                    ],
-                  ),
+                Text(
+                  'Global news',
+                  style: TextStyle(fontSize: 32),
                 ),
-                const SizedBox(
-                  width: 16,
-                ),
-                const Padding(
-                  padding: EdgeInsets.all(16),
-                  child: Text(
-                    'Россия',
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 28,
-                        fontWeight: FontWeight.bold),
-                  ),
-                ),
-                const SizedBox(
-                  width: 8,
-                ),
-                const Padding(
-                  padding: EdgeInsets.all(16),
-                  child: Text(
-                    'UnitedStates',
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 28,
-                        fontWeight: FontWeight.bold),
-                  ),
-                ),
-                const SizedBox(
-                  width: 16,
-                ),
-                const Padding(
-                  padding: EdgeInsets.all(16),
-                  child: Text(
-                    'Australia',
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 28,
-                        fontWeight: FontWeight.bold),
-                  ),
-                ),
-                const SizedBox(
-                  width: 16,
-                ),
-                const Padding(
-                  padding: EdgeInsets.all(16),
-                  child: Text(
-                    'India',
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 28,
-                        fontWeight: FontWeight.bold),
-                  ),
-                ),
-                const SizedBox(
-                  width: 16,
-                ),
-                const Padding(
-                  padding: EdgeInsets.all(16),
-                  child: Text(
-                    'Southern Africa',
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 28,
-                        fontWeight: FontWeight.bold),
-                  ),
-                ),
-                const SizedBox(
-                  width: 16,
-                ),
-                const Padding(
-                  padding: EdgeInsets.all(16),
-                  child: Text(
-                    'Turkish',
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 28,
-                        fontWeight: FontWeight.bold),
-                  ),
-                ),
-                const SizedBox(
-                  width: 16,
-                ),
-                const Padding(
-                  padding: EdgeInsets.all(16),
-                  child: Text(
-                    'Россия',
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 28,
-                        fontWeight: FontWeight.bold),
-                  ),
-                ),
-                const SizedBox(
-                  width: 16,
+                SizedBox(
+                  height: 4,
                 ),
               ],
             ),
           ),
         ),
-      ),
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        title: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Text(
-                'Global news',
-                style: TextStyle(fontSize: 32),
-              ),
-              const SizedBox(
-                height: 8,
-              ),
-              Text(
-                DateFormat.yMMMd()
-                    .format(DateTime.parse(DateTime.now().toString())),
-                style: const TextStyle(fontSize: 14),
-              ),
-              const SizedBox(
-                height: 8,
-              ),
-            ],
-          ),
-        ),
-      ),
-      body: BlocProvider(
-        create: (context) => NewsBloc(),
-        child: BlocBuilder<NewsBloc, NewsState>(
-          bloc: bloc..add(GetNewsEvent()),
+        body: BlocBuilder<NewsBloc, NewsState>(
+          buildWhen: (context, state) {
+            return state is NewsLoadedState;
+          },
           builder: (context, state) {
+            if (state is CountryNewsLoadedState) {
+              return Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      HeaderWidget(
+                        data:
+                            state.data[Random().nextInt(state.data.length - 1)],
+                      ),
+                      const SizedBox(
+                        height: 16,
+                      ),
+                      ListView.builder(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: state.data.length,
+                        itemBuilder: (context, index) {
+                          return ListViewItem(
+                            data: state.data[index],
+                          );
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            }
             if (state is NewsLoadedState) {
               return Padding(
                 padding:
@@ -201,20 +107,8 @@ class _MyHomePageState extends State<MyHomePage> {
                         physics: const NeverScrollableScrollPhysics(),
                         itemCount: state.data.length,
                         itemBuilder: (context, index) {
-                          return GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (_) => DetailPage(
-                                    data: state.data[index],
-                                  ),
-                                ),
-                              );
-                            },
-                            child: ListViewItem(
-                              data: state.data[index],
-                            ),
+                          return ListViewItem(
+                            data: state.data[index],
                           );
                         },
                       ),
@@ -306,58 +200,73 @@ class ListViewItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  DateFormat.yMMMd()
-                      .format(DateTime.parse(DateTime.now().toString())),
-                  style: const TextStyle(fontSize: 12),
-                ),
-                const SizedBox(
-                  height: 16,
-                ),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.55,
-                  child: Text(
-                    data.title.toString(),
-                    overflow: TextOverflow.fade,
-                    textAlign: TextAlign.left,
-                    style: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => DetailPage(
+              data: data,
+            ),
+          ),
+        );
+      },
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    DateFormat.yMMMd()
+                        .format(DateTime.parse(DateTime.now().toString())),
+                    style: const TextStyle(fontSize: 12),
+                  ),
+                  const SizedBox(
+                    height: 16,
+                  ),
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.55,
+                    child: Text(
+                      data.title.toString(),
+                      overflow: TextOverflow.fade,
+                      textAlign: TextAlign.left,
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
-                ),
-              ],
-            ),
-            Container(
-              width: 120,
-              height: 70,
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                    fit: BoxFit.fill,
-                    image: NetworkImage(data.urlToImage.toString())),
-                shape: BoxShape.rectangle,
-                borderRadius: BorderRadius.circular(16),
+                ],
               ),
-            ),
-            const SizedBox(
-              width: 16,
-            ),
-          ],
-        ),
-        const SizedBox(
-          height: 16,
-        ),
-        const Divider()
-      ],
+              const SizedBox(
+                width: 16,
+              ),
+              Container(
+                width: 110,
+                height: 70,
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                      fit: BoxFit.fill,
+                      image: NetworkImage(data.urlToImage.toString())),
+                  shape: BoxShape.rectangle,
+                  borderRadius: BorderRadius.circular(16),
+                ),
+              ),
+              const SizedBox(
+                width: 16,
+              ),
+            ],
+          ),
+          const SizedBox(
+            height: 16,
+          ),
+          const Divider()
+        ],
+      ),
     );
   }
 }

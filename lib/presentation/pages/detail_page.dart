@@ -17,100 +17,121 @@ class DetailPage extends StatefulWidget {
 class _DetailPageState extends State<DetailPage> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              Column(
+    return SafeArea(
+      child: Scaffold(
+          body: Padding(
+        padding: const EdgeInsets.all(24.0),
+        child: CustomScrollView(
+          slivers: [
+            SliverToBoxAdapter(
+              child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    widget.data.title.toString(),
-                    softWrap: true,
-                    style: const TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16,
+                  GestureDetector(
+                    onTap: () {
+                      context.go('/');
+                    },
+                    child: const Icon(
+                      Icons.arrow_back,
+                      color: Colors.black45,
                     ),
                   ),
-                  Text(
-                    widget.data.author.toString(),
-                    style: const TextStyle(color: Colors.white, fontSize: 12),
+                  const Icon(
+                    Icons.star_border,
+                    color: Colors.black45,
                   ),
                 ],
               ),
-              const SizedBox(
-                height: 8,
+            ),
+            const SliverToBoxAdapter(
+              child: SizedBox(
+                height: 24,
               ),
-              Container(
+            ),
+            SliverToBoxAdapter(
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      widget.data.description.toString(),
+                      style: const TextStyle(
+                          color: Colors.black45,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16),
+                    ),
+                    Text(
+                      widget.data.author.toString(),
+                      style:
+                          const TextStyle(color: Colors.black45, fontSize: 12),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            const SliverToBoxAdapter(
+              child: SizedBox(
+                height: 24,
+              ),
+            ),
+            SliverToBoxAdapter(
+              child: Container(
                 decoration: BoxDecoration(
                   shape: BoxShape.rectangle,
                   borderRadius: BorderRadius.circular(
                     32,
                   ),
                 ),
-                child: Image.network(widget.data.urlToImage.toString()),
+                child: Image.network(
+                  widget.data.urlToImage.toString(),
+                  fit: BoxFit.cover,
+                ),
               ),
-              const SizedBox(
+            ),
+            const SliverToBoxAdapter(
+              child: SizedBox(
                 height: 24,
               ),
-              Text(
-                widget.data.description.toString(),
-                style: const TextStyle(
+            ),
+            const SliverToBoxAdapter(
+              child: Text(
+                'Overview',
+                style: TextStyle(
                   fontSize: 20,
-                  color: Colors.black,
+                  color: Colors.black45,
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              const SizedBox(
+            ),
+            const SliverToBoxAdapter(
+              child: SizedBox(
                 height: 20,
               ),
-              Text(
-                widget.data.content.toString(),
-                style: const TextStyle(color: Colors.black),
-              ),
-              const SizedBox(
-                height: 16,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    children: [
-                      const Icon(Icons.calendar_today_outlined),
-                      const SizedBox(
-                        width: 8,
-                      ),
-                      Text(
-                        DateFormat().format(
-                          DateTime.parse(
-                            widget.data.publishedAt.toString(),
-                          ),
-                        ),
-                      )
-                    ],
+            ),
+            SliverToBoxAdapter(
+              child: RichText(
+                text: TextSpan(
+                  text: widget.data.content.toString(),
+                  style: const TextStyle(
+                    color: Colors.black45,
                   ),
-                  Row(
-                    children: [
-                      RichText(
-                        text: const TextSpan(
-                          text: 'Official site',
-                          style: TextStyle(color: Colors.blue),
-                        ),
+                  children: const [
+                    TextSpan(
+                      text: '...read all',
+                      style: TextStyle(
+                        color: Colors.orange,
+                        fontWeight: FontWeight.bold,
                       ),
-                      const Icon(Icons.arrow_forward_ios_rounded)
-                    ],
-                  )
-                ],
+                    ),
+                  ],
+                ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
-      ),
+      )),
     );
   }
 }

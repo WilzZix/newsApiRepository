@@ -9,7 +9,6 @@ class NewsInitial extends NewsState {
 }
 
 class NewsLoadingState extends NewsState {
-
   NewsLoadingState();
 
   @override
@@ -18,7 +17,6 @@ class NewsLoadingState extends NewsState {
 
 class NewsLoadedState extends NewsState {
   final List<News> data;
-
 
   NewsLoadedState({required this.data});
 
@@ -43,4 +41,31 @@ class DetailNewsInfo extends NewsState {
 
   @override
   List<Object?> get props => [data];
+}
+
+///
+class CountryNewsLoading extends NewsState {
+  @override
+  // TODO: implement props
+  List<Object?> get props => [];
+}
+
+class CountryNewsLoadedState extends NewsState {
+  final List<News> data;
+
+  CountryNewsLoadedState(this.data);
+
+  @override
+  // TODO: implement props
+  List<Object?> get props => [];
+}
+
+class CountryNewsLoadingErrorState extends NewsState {
+  final String msg;
+
+  CountryNewsLoadingErrorState(this.msg);
+
+  @override
+  // TODO: implement props
+  List<Object?> get props => [];
 }

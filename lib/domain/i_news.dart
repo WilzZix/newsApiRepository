@@ -4,4 +4,6 @@ abstract class INews {
   const INews._();
 
   Future<List<News>> getNews({required int page});
+
+  Future<List<News>> getNewsByCountry({required String country});
 }
