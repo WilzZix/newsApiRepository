@@ -10,7 +10,6 @@ class GetNewsEvent extends NewsEvent {
 
 class GetNextPageEvent extends NewsEvent {
   @override
-  // TODO: implement props
   List<Object?> get props => [];
 }
 
@@ -27,6 +26,10 @@ class GetCountryNewsEvent extends NewsEvent {
   GetCountryNewsEvent(this.country);
 
   @override
-  // TODO: implement props
+  List<Object?> get props => [];
+}
+
+class GetEverythingNewsEvent extends NewsEvent {
+  @override
   List<Object?> get props => [];
 }
