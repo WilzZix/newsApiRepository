@@ -5,5 +5,8 @@ abstract class INews {
 
   Future<List<News>> getNews({required int page});
 
-  Future<List<News>> getNewsByCountry({required String country});
+  Future<List<News>> getBBCNews();
+
+  Future<List<News>> getSportNews();
+
 }

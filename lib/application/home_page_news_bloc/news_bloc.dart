@@ -2,7 +2,7 @@ import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
 import 'package:infinite_scroll/infrastructure/dto/models/news_model.dart';
-import 'package:infinite_scroll/repasitory/news_repository.dart';
+import 'package:infinite_scroll/infrastructure/repasitory/news_repository.dart';
 import 'package:meta/meta.dart';
 
 import 'package:equatable/equatable.dart';
@@ -19,18 +19,13 @@ class NewsBloc extends Bloc<NewsEvent, NewsState> {
   NewsBloc() : super(NewsInitial()) {
     on<GetNewsEvent>(
       (event, emit) async {
-        print('line 22');
         emit(NewsLoadingState());
-        print('line 24');
         try {
-          print('line 26');
           List<News> list = await repository.getNews(page: 1);
-          print('line 28');
           emit(NewsLoadedState(
             data: list,
           ));
         } catch (e) {
-          print('line 33');
           emit(NewsLoadingErrorState(e.toString()));
         }
       },
@@ -45,15 +40,6 @@ class NewsBloc extends Bloc<NewsEvent, NewsState> {
         emit(NewsLoadedState(data: news));
       } catch (e) {
         emit(NewsLoadingErrorState(e.toString()));
-      }
-    });
-    on<GetCountryNewsEvent>((event, emit) async {
-      emit(CountryNewsLoading());
-      try {
-        news = await repository.getNewsByCountry(country: event.country);
-        emit(CountryNewsLoadedState(news));
-      } catch (e) {
-        emit(CountryNewsLoadingErrorState(e.toString()));
       }
     });
   }

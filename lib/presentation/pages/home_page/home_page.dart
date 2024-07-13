@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:infinite_scroll/application/bloc/news_bloc.dart';
+import 'package:infinite_scroll/application/home_page_news_bloc/news_bloc.dart';
 import 'package:infinite_scroll/infrastructure/dto/models/news_model.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:infinite_scroll/presentation/pages/category/category_page.dart';
 import 'package:infinite_scroll/presentation/pages/detail_page.dart';
 import 'package:intl/intl.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -25,7 +26,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   static const List<Widget> _pages = [
     HomePageBottomNavBar(),
-    Icon(Icons.category),
+    CategoryPage(),
     Icon(Icons.settings)
   ];
 
@@ -188,25 +189,34 @@ class HeaderWidget extends StatelessWidget {
           return Builder(
             builder: (BuildContext context) {
               return i.urlToImage != null
-                  ? Container(
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(11.0),
-                        image: DecorationImage(
-                          fit: BoxFit.cover,
-                          image: i.urlToImage != null
-                              ? NetworkImage(
-                                  i.urlToImage!,
-                                )
-                              : const NetworkImage(
-                                  'https://www.google.com/url?sa=i&url=https%3A%2F%2Fpotterhenry37.medium.com%2Fwhat-is-a-404-page-not-found-error-and-how-can-you-fix-it-a29ed9d6bc2a&psig=AOvVaw2e8GgTMLLnSqTom_xmreMS&ust=1720689551387000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCICj6J2SnIcDFQAAAAAdAAAAABAJ',
-                                ),
+                  ? GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => DetailPage(
+                              data: i,
+                            ),
+                          ),
+                        );
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(11.0),
+                          image: DecorationImage(
+                            fit: BoxFit.cover,
+                            image: i.urlToImage != null
+                                ? NetworkImage(
+                                    i.urlToImage!,
+                                  )
+                                : const NetworkImage(
+                                    'https://www.google.com/url?sa=i&url=https%3A%2F%2Fpotterhenry37.medium.com%2Fwhat-is-a-404-page-not-found-error-and-how-can-you-fix-it-a29ed9d6bc2a&psig=AOvVaw2e8GgTMLLnSqTom_xmreMS&ust=1720689551387000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCICj6J2SnIcDFQAAAAAdAAAAABAJ',
+                                  ),
+                          ),
                         ),
-                      ),
-                      width: MediaQuery.of(context).size.width,
-                      margin: const EdgeInsets.symmetric(horizontal: 5.0),
-                      child: Positioned(
-                        bottom: 0,
+                        width: MediaQuery.of(context).size.width,
+                        margin: const EdgeInsets.symmetric(horizontal: 5.0),
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Text(
