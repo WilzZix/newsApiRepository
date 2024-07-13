@@ -3,6 +3,7 @@ import 'package:infinite_scroll/application/bbc_news/bbc_news_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:infinite_scroll/application/home_page_news_bloc/news_bloc.dart';
 import 'package:infinite_scroll/application/sport/sport_bloc.dart';
+import 'package:infinite_scroll/presentation/pages/category/category_list_page.dart';
 
 class CategoryPage extends StatefulWidget {
   const CategoryPage({super.key});
@@ -29,17 +30,36 @@ class _CategoryPageState extends State<CategoryPage> {
                 if (state is BBCNewsLoaded) {
                   return Column(
                     children: [
-                      const Padding(
+                      Padding(
                         padding: EdgeInsets.all(16.0),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text('BBC News'),
-                            Row(
-                              children: [
-                                Text('All'),
-                                Icon(Icons.arrow_forward_ios),
-                              ],
+                            Text(
+                              'BBC News',
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => CategoryListNews(
+                                      data: state.data,
+                                      title: 'BBC News',
+                                    ),
+                                  ),
+                                );
+                              },
+                              child: Row(
+                                children: [
+                                  Text('All'),
+                                  Icon(Icons.arrow_forward_ios),
+                                ],
+                              ),
                             )
                           ],
                         ),
@@ -94,17 +114,36 @@ class _CategoryPageState extends State<CategoryPage> {
                 if (state is SportNewsLoaded) {
                   return Column(
                     children: [
-                      const Padding(
+                      Padding(
                         padding: EdgeInsets.all(16.0),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text('Sport News'),
-                            Row(
-                              children: [
-                                Text('All'),
-                                Icon(Icons.arrow_forward_ios),
-                              ],
+                            Text(
+                              'Sport News',
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => CategoryListNews(
+                                      data: state.data,
+                                      title: 'Sport News',
+                                    ),
+                                  ),
+                                );
+                              },
+                              child: Row(
+                                children: [
+                                  Text('All'),
+                                  Icon(Icons.arrow_forward_ios),
+                                ],
+                              ),
                             )
                           ],
                         ),
@@ -158,17 +197,36 @@ class _CategoryPageState extends State<CategoryPage> {
                 if (state is NewsLoadedState) {
                   return Column(
                     children: [
-                      const Padding(
-                        padding: EdgeInsets.all(16.0),
+                      Padding(
+                        padding: EdgeInsets.all(8.0),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text('Top headlines'),
-                            Row(
-                              children: [
-                                Text('All'),
-                                Icon(Icons.arrow_forward_ios),
-                              ],
+                            Text(
+                              'Top headlines',
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => CategoryListNews(
+                                      data: state.data,
+                                      title: 'Top headlines',
+                                    ),
+                                  ),
+                                );
+                              },
+                              child: Row(
+                                children: [
+                                  Text('All'),
+                                  Icon(Icons.arrow_forward_ios),
+                                ],
+                              ),
                             )
                           ],
                         ),
