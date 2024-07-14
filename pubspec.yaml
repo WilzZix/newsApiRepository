@@ -16,16 +16,20 @@ dependencies:
 
   cupertino_icons: ^1.0.2
   intl: ^0.18.0
-
-dev_dependencies:
-  flutter_test:
-    sdk: flutter
-  flutter_lints: ^2.0.0
+  hive_flutter: any
+  hive: any
   go_router: ^6.0.0
   dio: ^4.0.6
   flutter_bloc: ^8.1.2
   equatable: ^2.0.5
   carousel_slider: ^4.2.1
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^2.0.0
+
+  hive_generator: any
+  build_runner: any
 
 flutter:
 

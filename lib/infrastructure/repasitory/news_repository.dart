@@ -6,7 +6,7 @@ import 'package:infinite_scroll/infrastructure/service/network_provider.dart';
 //apiKey=2a389994e9314644b675d0567ed43de4 nodirbek barotov
 //apiKey = d094c8cfc699450fa563f9e2463c9725 nodir barotov
 
-class NewsRepository implements INews {
+  class NewsRepository implements INews {
   @override
   Future<List<News>> getNews({required int page}) async {
     final Response response =

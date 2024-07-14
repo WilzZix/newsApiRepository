@@ -93,81 +93,88 @@ class HomePageBottomNavBar extends StatelessWidget {
           ),
         ),
       ),
-      body: BlocBuilder<NewsBloc, NewsState>(
-        buildWhen: (context, state) {
-          return state is NewsLoadedState;
+      body: RefreshIndicator(
+        onRefresh: () async {
+          BlocProvider.of<NewsBloc>(context).add(GetNewsEvent());
         },
-        builder: (context, state) {
-          if (state is CountryNewsLoadedState) {
-            return Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-              child: SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    HeaderWidget(
-                      data: state.data,
-                    ),
-                    const SizedBox(
-                      height: 16,
-                    ),
-                    ListView.builder(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemCount: state.data.length,
-                      itemBuilder: (context, index) {
-                        return ListViewItem(
-                          data: state.data[index],
-                        );
-                      },
-                    ),
-                  ],
+        child: BlocBuilder<NewsBloc, NewsState>(
+          buildWhen: (context, state) {
+            return state is NewsLoadedState;
+          },
+          builder: (context, state) {
+            if (state is CountryNewsLoadedState) {
+              return Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      HeaderWidget(
+                        data: state.data,
+                      ),
+                      const SizedBox(
+                        height: 16,
+                      ),
+                      ListView.builder(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: state.data.length,
+                        itemBuilder: (context, index) {
+                          return ListViewItem(
+                            data: state.data[index],
+                          );
+                        },
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-            );
-          }
-          if (state is NewsLoadedState) {
-            return Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-              child: SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    HeaderWidget(
-                      data: state.data,
-                    ),
-                    const SizedBox(
-                      height: 16,
-                    ),
-                    ListView.builder(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemCount: state.data.length,
-                      itemBuilder: (context, index) {
-                        return ListViewItem(
-                          data: state.data[index],
-                        );
-                      },
-                    ),
-                  ],
+              );
+            }
+            if (state is NewsLoadedState) {
+              return Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      HeaderWidget(
+                        data: state.data,
+                      ),
+                      const SizedBox(
+                        height: 16,
+                      ),
+                      ListView.builder(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: state.data.length,
+                        itemBuilder: (context, index) {
+                          return ListViewItem(
+                            data: state.data[index],
+                          );
+                        },
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-            );
-          }
-          if (state is NewsLoadingState) {
-            return const Center(
-              child: CircularProgressIndicator(
-                color: Colors.green,
-              ),
-            );
-          } else {
-            return const Center(
-              child: CircularProgressIndicator(
-                color: Colors.red,
-              ),
-            );
-          }
-        },
+              );
+            }
+            if (state is NewsLoadingState) {
+              return const Center(
+                child: CircularProgressIndicator(
+                  color: Colors.green,
+                ),
+              );
+            } else {
+              return const Center(
+                child: CircularProgressIndicator(
+                  color: Colors.red,
+                ),
+              );
+            }
+          },
+        ),
       ),
     );
   }

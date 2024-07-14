@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
 import 'package:infinite_scroll/infrastructure/dto/models/news_model.dart';
+import 'package:infinite_scroll/infrastructure/local_database_repository/local_data_source.dart';
 import 'package:infinite_scroll/infrastructure/repasitory/news_repository.dart';
 import 'package:meta/meta.dart';
 
@@ -15,6 +16,7 @@ class NewsBloc extends Bloc<NewsEvent, NewsState> {
   int _page = 1;
   List<News> news = [];
   final NewsRepository repository = NewsRepository();
+  final _hiveStorageRepository = LocalDataRepository();
 
   NewsBloc() : super(NewsInitial()) {
     on<GetNewsEvent>(
@@ -22,6 +24,7 @@ class NewsBloc extends Bloc<NewsEvent, NewsState> {
         emit(NewsLoadingState());
         try {
           List<News> list = await repository.getNews(page: 1);
+          await _hiveStorageRepository.setTopHeadlineNews(data: list);
           emit(NewsLoadedState(
             data: list,
           ));
