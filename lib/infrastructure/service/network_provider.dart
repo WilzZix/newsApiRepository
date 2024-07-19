@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
@@ -12,6 +11,8 @@ class NetworkProvider {
   static Future<void> init() async {
     dio = Dio(
       BaseOptions(
+        connectTimeout: 1000,
+        receiveTimeout: 1000,
         baseUrl: routes.baseUrl,
         queryParameters: {
           "country": 'us',
@@ -27,7 +28,7 @@ class NetworkProvider {
                 responseHeader: true,
                 requestBody: true,
                 responseBody: true,
-                logPrint: (error) => log(error.toString())),
+            )// logPrint: (error) => log(error.toString())),
         ],
       );
   }

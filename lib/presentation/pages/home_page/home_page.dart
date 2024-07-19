@@ -99,7 +99,7 @@ class HomePageBottomNavBar extends StatelessWidget {
         },
         child: BlocBuilder<NewsBloc, NewsState>(
           buildWhen: (context, state) {
-            return state is NewsLoadedState;
+            return state is NewsLoadedState || state is NewsLoadingErrorState;
           },
           builder: (context, state) {
             if (state is CountryNewsLoadedState) {
@@ -158,6 +158,11 @@ class HomePageBottomNavBar extends StatelessWidget {
                     ],
                   ),
                 ),
+              );
+            }
+            if (state is NewsLoadingErrorState) {
+              return Center(
+                child: Text(state.message),
               );
             }
             if (state is NewsLoadingState) {
