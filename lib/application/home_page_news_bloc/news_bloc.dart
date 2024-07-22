@@ -26,12 +26,8 @@ class NewsBloc extends Bloc<NewsEvent, NewsState> {
         emit(NewsLoadingState());
         try {
           List<News> list = await repository.getNews(page: 1);
-          //  await _hiveStorageRepository.setTopHeadlineNews(data: list);
-          emit(NewsLoadedState(
-            data: list,
-          ));
+          emit(NewsLoadedState(data: list));
         } on DioError catch (e) {
-          log('line 32 $e');
           emit(
             NewsLoadingErrorState(
               HandlingNetworkExceptions.returnErrorMessageDependingWithError(e),

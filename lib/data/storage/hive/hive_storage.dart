@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:infinite_scroll/infrastructure/dto/models/news_model.dart';
 
@@ -21,9 +23,8 @@ class HiveStorage {
   }
 
   Future<List<News>> getTopHeadlineNews() async {
-    List<News> data = [];
-    data = await _mainStorage.get(_topHeadlineNews);
-    return data;
+    log('line 26');
+    return await _mainStorage.get(_topHeadlineNews);
   }
 
   Future<void> saveSportNews(List<News> news) async {

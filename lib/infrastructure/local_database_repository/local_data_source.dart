@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:infinite_scroll/data/storage/hive/hive_storage.dart';
 import 'package:infinite_scroll/domain/i_local_news.dart';
 
@@ -13,6 +15,7 @@ class LocalDataRepository implements ILocalNews {
 
   @override
   Future<List<News>> getNews({required int page}) {
+    log('line 18');
     return _hiveStorage.getTopHeadlineNews();
   }
 
