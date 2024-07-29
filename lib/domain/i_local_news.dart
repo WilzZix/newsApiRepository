@@ -1,7 +1,7 @@
 import 'package:infinite_scroll/infrastructure/dto/models/news_model.dart';
 
 abstract class ILocalNews {
-  Future<List<News>> getNews({required int page});
+  List<News> getNews({required int page});
 
   Future<List<News>> getBBCNews();
 

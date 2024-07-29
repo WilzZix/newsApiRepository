@@ -20,7 +20,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   void initState() {
-    BlocProvider.of<NewsBloc>(context).add(GetNewsEvent());
+    BlocProvider.of<NewsBloc>(context).add(GetNewsFromLocalStorage());
     super.initState();
   }
 

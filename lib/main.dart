@@ -5,6 +5,7 @@ import 'package:infinite_scroll/application/bbc_news/bbc_news_bloc.dart';
 import 'package:infinite_scroll/application/home_page_news_bloc/news_bloc.dart';
 import 'package:infinite_scroll/application/sport/sport_bloc.dart';
 import 'package:infinite_scroll/data/storage/hive/hive_storage.dart';
+import 'package:infinite_scroll/data/storage/shared_preference/shared_preference_storage.dart';
 import 'package:infinite_scroll/infrastructure/dto/models/news_model.dart';
 import 'package:infinite_scroll/infrastructure/service/network_provider.dart';
 import 'package:infinite_scroll/presentation/pages/detail_page.dart';
@@ -17,6 +18,7 @@ void main() async {
   await Hive.initFlutter();
   Hive.registerAdapter(NewsAdapter());
   Hive.registerAdapter(SourceAdapter());
+  await SharedPreferenceStorage().initPrefs();
   await Hive.openBox(HiveBoxNameUtils.mainStorage);
   runApp(MyApp());
 }

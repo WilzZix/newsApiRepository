@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
+import 'package:infinite_scroll/data/storage/shared_preference/shared_preference_storage.dart';
 import 'package:infinite_scroll/infrastructure/dto/models/news_model.dart';
 import 'package:infinite_scroll/infrastructure/local_database_repository/local_data_source.dart';
 import 'package:infinite_scroll/infrastructure/repasitory/news_repository.dart';
@@ -26,6 +27,7 @@ class NewsBloc extends Bloc<NewsEvent, NewsState> {
         emit(NewsLoadingState());
         try {
           List<News> list = await repository.getNews(page: 1);
+          await _hiveStorageRepository.setTopHeadlineNews(data: list);
           emit(NewsLoadedState(data: list));
         } on DioError catch (e) {
           emit(
@@ -36,6 +38,20 @@ class NewsBloc extends Bloc<NewsEvent, NewsState> {
         }
       },
     );
+    on<GetNewsFromLocalStorage>((event, emit) async {
+      emit(NewsLoadingState());
+      try {
+        List<News> list = [];
+        list = _hiveStorageRepository.getNews(page: 1);
+        emit(NewsLoadedState(data: list));
+      } on DioError catch (e) {
+        emit(
+          NewsLoadingErrorState(
+            HandlingNetworkExceptions.returnErrorMessageDependingWithError(e),
+          ),
+        );
+      }
+    });
     on<GetNextPageEvent>((event, emit) async {
       emit(NewsLoadingState());
       try {

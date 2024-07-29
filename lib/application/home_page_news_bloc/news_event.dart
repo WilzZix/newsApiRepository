@@ -33,3 +33,8 @@ class GetEverythingNewsEvent extends NewsEvent {
   @override
   List<Object?> get props => [];
 }
+
+class GetNewsFromLocalStorage extends NewsEvent {
+  @override
+  List<Object?> get props => [];
+}

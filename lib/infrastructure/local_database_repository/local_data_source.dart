@@ -14,7 +14,7 @@ class LocalDataRepository implements ILocalNews {
   }
 
   @override
-  Future<List<News>> getNews({required int page}) {
+  List<News> getNews({required int page}) {
     log('line 18');
     return _hiveStorage.getTopHeadlineNews();
   }
