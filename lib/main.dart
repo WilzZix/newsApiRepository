@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:infinite_scroll/application/bbc_news/bbc_news_bloc.dart';
+import 'package:infinite_scroll/application/connection/connection_bloc.dart';
+import 'package:infinite_scroll/application/connection/connection_state.dart';
 import 'package:infinite_scroll/application/home_page_news_bloc/news_bloc.dart';
 import 'package:infinite_scroll/application/sport/sport_bloc.dart';
 import 'package:infinite_scroll/data/storage/hive/hive_storage.dart';
@@ -62,12 +64,11 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           create: (context) => NewsBloc(),
         ),
+        BlocProvider(create: (create) => SportBloc()),
         BlocProvider(
-          create: (create) => SportBloc()..add(GetSportNewsEvent()),
+          create: (create) => BbcNewsBloc(),
         ),
-        BlocProvider(
-          create: (create) => BbcNewsBloc()..add(GetBBCNewsEvent()),
-        )
+        BlocProvider(create: (context) => ConnectionCheckerBloc())
       ],
       child: MaterialApp.router(
         routerConfig: _router,
@@ -76,6 +77,29 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
+        builder: (_, child) {
+          return BlocListener<ConnectionCheckerBloc, ConnectionCheckerState>(
+            listener: (context, state) {
+              if (state is ConnectivitySuccess) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    backgroundColor: Colors.green,
+                    content: Text('connected'),
+                  ),
+                );
+              }
+              if (state is ConnectivityFailure) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    backgroundColor: Colors.red,
+                    content: Text('is not connected'),
+                  ),
+                );
+              }
+            },
+            child: child,
+          );
+        },
       ),
     );
   }

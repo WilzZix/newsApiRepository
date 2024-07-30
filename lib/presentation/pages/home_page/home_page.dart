@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:infinite_scroll/application/connection/connection_bloc.dart';
+import 'package:infinite_scroll/application/connection/connection_state.dart';
 import 'package:infinite_scroll/application/home_page_news_bloc/news_bloc.dart';
 import 'package:infinite_scroll/infrastructure/dto/models/news_model.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -20,7 +22,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   void initState() {
-    BlocProvider.of<NewsBloc>(context).add(GetNewsFromLocalStorage());
+    BlocProvider.of<NewsBloc>(context).add(GetNewsEvent());
     super.initState();
   }
 

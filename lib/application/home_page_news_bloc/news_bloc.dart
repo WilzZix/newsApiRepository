@@ -41,6 +41,7 @@ class NewsBloc extends Bloc<NewsEvent, NewsState> {
     on<GetNewsFromLocalStorage>((event, emit) async {
       emit(NewsLoadingState());
       try {
+        log('line 44');
         List<News> list = [];
         list = _hiveStorageRepository.getNews(page: 1);
         emit(NewsLoadedState(data: list));
