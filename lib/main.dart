@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -8,6 +9,7 @@ import 'package:infinite_scroll/application/home_page_news_bloc/news_bloc.dart';
 import 'package:infinite_scroll/application/sport/sport_bloc.dart';
 import 'package:infinite_scroll/data/storage/hive/hive_storage.dart';
 import 'package:infinite_scroll/data/storage/shared_preference/shared_preference_storage.dart';
+import 'package:infinite_scroll/firebase_options.dart';
 import 'package:infinite_scroll/infrastructure/dto/models/news_model.dart';
 import 'package:infinite_scroll/infrastructure/service/network_provider.dart';
 import 'package:infinite_scroll/presentation/pages/detail_page.dart';
@@ -19,6 +21,9 @@ void main() async {
   NetworkProvider.init();
   await Hive.initFlutter();
   Hive.registerAdapter(NewsAdapter());
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   Hive.registerAdapter(SourceAdapter());
   await SharedPreferenceStorage().initPrefs();
   await Hive.openBox(HiveBoxNameUtils.mainStorage);
