@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:infinite_scroll/application/theme/theme_cubit.dart';
+import 'package:infinite_scroll/presentation/pages/settings_page/components.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
@@ -8,6 +11,8 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
+  bool appThemeIsDark = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -66,8 +71,13 @@ class _SettingsPageState extends State<SettingsPage> {
                   SettingsSectionItem(
                     title: 'Dark mode',
                     icon: Switch.adaptive(
-                      value: true,
-                      onChanged: (value) {},
+                      value: appThemeIsDark,
+                      onChanged: (value) {
+                        appThemeIsDark = value;
+                        setState(() {});
+                        BlocProvider.of<ThemeCubit>(context)
+                            .changeAppTheme(isDarkMode: !value);
+                      },
                     ),
                   ),
                   const SizedBox(height: 16),
@@ -96,81 +106,6 @@ class _SettingsPageState extends State<SettingsPage> {
           ),
         ),
       ),
-    );
-  }
-}
-
-class SettingsSectionItem extends StatelessWidget {
-  const SettingsSectionItem({
-    super.key,
-    required this.title,
-    required this.icon,
-  });
-
-  final String title;
-  final Widget icon;
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [Text(title), icon],
-    );
-  }
-}
-
-class SettingsSectionWidget extends StatelessWidget {
-  const SettingsSectionWidget({
-    super.key,
-    required this.sectionTitle,
-    required this.sectionIcon,
-    required this.sectionItems,
-  });
-
-  final String sectionTitle;
-  final Icon sectionIcon;
-  final List<Widget> sectionItems;
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Row(
-          children: [
-            sectionIcon,
-            const SizedBox(width: 8),
-            Text(
-              sectionTitle,
-              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-            ),
-          ],
-        ),
-        const SizedBox(
-          height: 16,
-        ),
-        Container(
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(16),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                ListView.builder(
-                  shrinkWrap: true,
-                  physics: NeverScrollableScrollPhysics(),
-                  itemCount: sectionItems.length,
-                  itemBuilder: (context, item) {
-                    return sectionItems[item];
-                  },
-                ),
-              ],
-            ),
-          ),
-        ),
-      ],
     );
   }
 }

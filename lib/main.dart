@@ -8,6 +8,7 @@ import 'package:infinite_scroll/application/connection/connection_bloc.dart';
 import 'package:infinite_scroll/application/connection/connection_state.dart';
 import 'package:infinite_scroll/application/home_page_news_bloc/news_bloc.dart';
 import 'package:infinite_scroll/application/sport/sport_bloc.dart';
+import 'package:infinite_scroll/application/theme/theme_cubit.dart';
 import 'package:infinite_scroll/data/storage/hive/hive_storage.dart';
 import 'package:infinite_scroll/data/storage/shared_preference/shared_preference_storage.dart';
 import 'package:infinite_scroll/firebase_options.dart';
@@ -50,8 +51,15 @@ class AppBlocObserver extends BlocObserver {
   }
 }
 
-class MyApp extends StatelessWidget {
-  MyApp({super.key});
+class MyApp extends StatefulWidget {
+  const MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  bool appThemeDark = false;
 
   final _router = GoRouter(
     debugLogDiagnostics: true,
@@ -80,36 +88,45 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           create: (create) => BbcNewsBloc(),
         ),
-        BlocProvider(create: (context) => ConnectionCheckerBloc())
+        BlocProvider(create: (context) => ConnectionCheckerBloc()),
+        BlocProvider(create: (context) => ThemeCubit())
       ],
-      child: MaterialApp.router(
-        routerConfig: _router,
-        debugShowCheckedModeBanner: false,
-        title: 'Flutter Demo',
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-        ),
-        builder: (_, child) {
-          return BlocListener<ConnectionCheckerBloc, ConnectionCheckerState>(
-            listener: (context, state) {
-              if (state is ConnectivitySuccess) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    backgroundColor: Colors.green,
-                    content: Text('connected'),
-                  ),
-                );
-              }
-              if (state is ConnectivityFailure) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    backgroundColor: Colors.red,
-                    content: Text('is not connected'),
-                  ),
-                );
-              }
+      child: BlocConsumer<ThemeCubit, ThemeState>(
+        listener: (context, state) {
+          if (state is AppThemeState) {
+            appThemeDark = state.isDark;
+          }
+        },
+        builder: (BuildContext context, ThemeState state) {
+          return MaterialApp.router(
+            routerConfig: _router,
+            debugShowCheckedModeBanner: false,
+            title: 'Flutter Demo',
+            theme: appThemeDark ? ThemeData.dark() : ThemeData.light(),
+            builder: (_, child) {
+              return BlocListener<ConnectionCheckerBloc,
+                  ConnectionCheckerState>(
+                listener: (context, state) {
+                  if (state is ConnectivitySuccess) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        backgroundColor: Colors.green,
+                        content: Text('connected'),
+                      ),
+                    );
+                  }
+                  if (state is ConnectivityFailure) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        backgroundColor: Colors.red,
+                        content: Text('is not connected'),
+                      ),
+                    );
+                  }
+                },
+                child: child,
+              );
             },
-            child: child,
           );
         },
       ),
