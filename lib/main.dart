@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -29,18 +27,11 @@ void main() async {
   );
 
 // For apple platforms, ensure the APNS token is available before making any FCM plugin API calls
-  final apnsToken = await FirebaseMessaging.instance.getAPNSToken();
-  log('line 35 ${await FirebaseMessaging.instance.getToken()}');
-  if (apnsToken != null) {}
+  // final apnsToken = await FirebaseMessaging.instance.getAPNSToken();
+//  log('line 35 ${await FirebaseMessaging.instance.getToken()}');
+  // if (apnsToken != null) {}
   Hive.registerAdapter(SourceAdapter());
   await FirebaseMessaging.instance.setAutoInitEnabled(true);
-  NotificationSettings settings =
-      await FirebaseMessaging.instance.requestPermission(
-    alert: true,
-    badge: true,
-    sound: true,
-    provisional: false,
-  );
   await SharedPreferenceStorage().initPrefs();
   await Hive.openBox(HiveBoxNameUtils.mainStorage);
   runApp(MyApp());

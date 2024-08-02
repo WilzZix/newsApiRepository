@@ -160,6 +160,7 @@ class SettingsSectionWidget extends StatelessWidget {
               children: [
                 ListView.builder(
                   shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
                   itemCount: sectionItems.length,
                   itemBuilder: (context, item) {
                     return sectionItems[item];
