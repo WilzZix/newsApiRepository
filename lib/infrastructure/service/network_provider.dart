@@ -11,7 +11,7 @@ class NetworkProvider {
   static Future<void> init() async {
     dio = Dio(
       BaseOptions(
-        connectTimeout: 1000,
+        connectTimeout: 3000,
         receiveTimeout: 1000,
         baseUrl: routes.baseUrl,
         queryParameters: {

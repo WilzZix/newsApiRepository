@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:infinite_scroll/application/connection/connection_bloc.dart';
-import 'package:infinite_scroll/application/connection/connection_state.dart';
 import 'package:infinite_scroll/application/home_page_news_bloc/news_bloc.dart';
 import 'package:infinite_scroll/infrastructure/dto/models/news_model.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:infinite_scroll/presentation/pages/category/category_page.dart';
 import 'package:infinite_scroll/presentation/pages/detail_page.dart';
+import 'package:infinite_scroll/presentation/pages/settings_page/settings_page.dart';
 import 'package:intl/intl.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
@@ -29,7 +28,7 @@ class _MyHomePageState extends State<MyHomePage> {
   static const List<Widget> _pages = [
     HomePageBottomNavBar(),
     CategoryPage(),
-    Icon(Icons.settings)
+    SettingsPage()
   ];
 
   @override
