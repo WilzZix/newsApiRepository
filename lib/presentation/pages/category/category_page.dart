@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:infinite_scroll/application/bbc_news/bbc_news_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:infinite_scroll/application/home_page_news_bloc/news_bloc.dart';
@@ -44,15 +45,16 @@ class _CategoryPageState extends State<CategoryPage> {
                             ),
                             GestureDetector(
                               onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => CategoryListNews(
-                                      data: state.data,
-                                      title: 'BBC News',
-                                    ),
-                                  ),
-                                );
+                                context.pushNamed('/detail', extra: state.data);
+                                // Navigator.push(
+                                //   context,
+                                //   MaterialPageRoute(
+                                //     builder: (context) => CategoryListNews(
+                                //       data: state.data,
+                                //       title: 'BBC News',
+                                //     ),
+                                //   ),
+                                // );
                               },
                               child: Row(
                                 children: [
@@ -128,15 +130,16 @@ class _CategoryPageState extends State<CategoryPage> {
                             ),
                             GestureDetector(
                               onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => CategoryListNews(
-                                      data: state.data,
-                                      title: 'Sport News',
-                                    ),
-                                  ),
-                                );
+                                context.pushNamed('/detail', extra: state.data);
+                                // Navigator.push(
+                                //   context,
+                                //   MaterialPageRoute(
+                                //     builder: (context) => CategoryListNews(
+                                //       data: state.data,
+                                //       title: 'Sport News',
+                                //     ),
+                                //   ),
+                                // );
                               },
                               child: Row(
                                 children: [
@@ -211,15 +214,16 @@ class _CategoryPageState extends State<CategoryPage> {
                             ),
                             GestureDetector(
                               onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => CategoryListNews(
-                                      data: state.data,
-                                      title: 'Top headlines',
-                                    ),
-                                  ),
-                                );
+                                context.pushNamed('/detail', extra: state.data);
+                                // Navigator.push(
+                                //   context,
+                                //   MaterialPageRoute(
+                                //     builder: (context) => CategoryListNews(
+                                //       data: state.data,
+                                //       title: 'Top headlines',
+                                //     ),
+                                //   ),
+                                // );
                               },
                               child: Row(
                                 children: [

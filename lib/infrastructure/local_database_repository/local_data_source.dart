@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:infinite_scroll/data/storage/hive/hive_storage.dart';
 import 'package:infinite_scroll/domain/i_local_news.dart';
 

@@ -22,6 +22,7 @@ void main() async {
   Bloc.observer = AppBlocObserver();
   NetworkProvider.init();
   await Hive.initFlutter();
+  await Hive.openBox<News>('newsBox');
   Hive.registerAdapter(NewsAdapter());
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
@@ -70,6 +71,7 @@ class _MyAppState extends State<MyApp> {
       ),
       GoRoute(
         path: '/detail',
+        name: '/detail',
         builder: (context, state) => DetailPage(
           data: state.extra as News,
         ),
@@ -100,6 +102,9 @@ class _MyAppState extends State<MyApp> {
         builder: (BuildContext context, ThemeState state) {
           return MaterialApp.router(
             routerConfig: _router,
+           // routerDelegate: _router.routerDelegate,
+            // routeInformationParser: _router.routeInformationParser,
+            // routeInformationProvider: _router.routeInformationProvider,
             debugShowCheckedModeBanner: false,
             title: 'Flutter Demo',
             theme: appThemeDark ? ThemeData.dark() : ThemeData.light(),

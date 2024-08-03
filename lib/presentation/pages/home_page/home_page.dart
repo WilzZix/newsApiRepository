@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:infinite_scroll/application/home_page_news_bloc/news_bloc.dart';
 import 'package:infinite_scroll/infrastructure/dto/models/news_model.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -204,14 +205,15 @@ class HeaderWidget extends StatelessWidget {
               return i.urlToImage != null
                   ? GestureDetector(
                       onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => DetailPage(
-                              data: i,
-                            ),
-                          ),
-                        );
+                        context.pushNamed('/detail', extra: i);
+                        // Navigator.push(
+                        //   context,
+                        //   MaterialPageRoute(
+                        //     builder: (context) => DetailPage(
+                        //       data: i,
+                        //     ),
+                        //   ),
+                        // );
                       },
                       child: Container(
                         decoration: BoxDecoration(
@@ -263,14 +265,15 @@ class ListViewItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => DetailPage(
-              data: data,
-            ),
-          ),
-        );
+        context.pushNamed('/detail', extra: data);
+        // Navigator.push(
+        //   context,
+        //   MaterialPageRoute(
+        //     builder: (context) => DetailPage(
+        //       data: data,
+        //     ),
+        //   ),
+        // );
       },
       child: Column(
         children: [
