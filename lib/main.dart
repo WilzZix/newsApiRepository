@@ -1,7 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:infinite_scroll/application/bbc_news/bbc_news_bloc.dart';
 import 'package:infinite_scroll/application/connection/connection_bloc.dart';
@@ -14,9 +13,8 @@ import 'package:infinite_scroll/data/storage/shared_preference/shared_preference
 import 'package:infinite_scroll/firebase_options.dart';
 import 'package:infinite_scroll/infrastructure/dto/models/news_model.dart';
 import 'package:infinite_scroll/infrastructure/service/network_provider.dart';
-import 'package:infinite_scroll/presentation/pages/detail_page.dart';
-import 'package:infinite_scroll/presentation/pages/home_page/home_page.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:infinite_scroll/presentation/routes/router.dart';
 
 void main() async {
   Bloc.observer = AppBlocObserver();
@@ -62,23 +60,6 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   bool appThemeDark = false;
 
-  final _router = GoRouter(
-    debugLogDiagnostics: true,
-    routes: [
-      GoRoute(
-        path: '/',
-        builder: (context, state) => const MyHomePage(),
-      ),
-      GoRoute(
-        path: '/detail',
-        name: '/detail',
-        builder: (context, state) => DetailPage(
-          data: state.extra as News,
-        ),
-      ),
-    ],
-  );
-
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
@@ -101,10 +82,7 @@ class _MyAppState extends State<MyApp> {
         },
         builder: (BuildContext context, ThemeState state) {
           return MaterialApp.router(
-            routerConfig: _router,
-           // routerDelegate: _router.routerDelegate,
-            // routeInformationParser: _router.routeInformationParser,
-            // routeInformationProvider: _router.routeInformationProvider,
+            routerConfig: AppRouter.router,
             debugShowCheckedModeBanner: false,
             title: 'Flutter Demo',
             theme: appThemeDark ? ThemeData.dark() : ThemeData.light(),

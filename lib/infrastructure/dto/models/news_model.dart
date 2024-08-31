@@ -46,9 +46,10 @@ class News extends HiveObject {
     source = json['source'] != null ? Source.fromJson(json['source']) : null;
     author = json['author'];
     title = json['title'];
-    description = json['description'];
-    url = json['url'];
-    urlToImage = json['urlToImage'];
+    description = json['description'] ?? '';
+    url = json['url'] ?? '';
+    urlToImage = json['urlToImage'] ??
+        'https://www.google.com/url?sa=i&url=https%3A%2F%2Fpotterhenry37.medium.com%2Fwhat-is-a-404-page-not-found-error-and-how-can-you-fix-it-a29ed9d6bc2a&psig=AOvVaw2e8GgTMLLnSqTom_xmreMS&ust=1720689551387000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCICj6J2SnIcDFQAAAAAdAAAAABAJ';
     publishedAt = json['publishedAt'];
     content = json['content'];
   }

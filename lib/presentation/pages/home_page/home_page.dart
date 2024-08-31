@@ -1,13 +1,12 @@
+import 'package:carousel_slider_plus/carousel_slider_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:infinite_scroll/application/home_page_news_bloc/news_bloc.dart';
 import 'package:infinite_scroll/infrastructure/dto/models/news_model.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:infinite_scroll/presentation/pages/category/category_page.dart';
-import 'package:infinite_scroll/presentation/pages/detail_page.dart';
 import 'package:infinite_scroll/presentation/pages/settings_page/settings_page.dart';
 import 'package:intl/intl.dart';
-import 'package:carousel_slider/carousel_slider.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key}) : super(key: key);
@@ -244,7 +243,7 @@ class HeaderWidget extends StatelessWidget {
                         ),
                       ),
                     )
-                  : SizedBox();
+                  : const SizedBox();
             },
           );
         }).toList(),
